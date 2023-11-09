@@ -4,11 +4,12 @@ FROM python:3.9
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the FastAPI project files into the container
-COPY . /app
-
 # Install any dependencies your project needs
+COPY requirements.txt .
 RUN pip install -r requirements.txt
+
+# Copy the FastAPI project files into the container
+COPY . .
 
 # Expose the port your FastAPI app will run on
 EXPOSE 8000
