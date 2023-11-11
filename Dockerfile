@@ -8,9 +8,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# Copy the FastAPI project files into the container
-COPY . .
-
 # Expose the port your FastAPI app will run on
 EXPOSE 8000
 

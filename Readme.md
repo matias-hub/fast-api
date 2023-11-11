@@ -22,8 +22,7 @@ Follow these steps to download and deploy the FastAPI API:
 2. Build the Docker image and start the FastAPI application:
 
    ```
-   docker compose build
-   docker compose up
+   docker compose build && docker compose up
    ```
 
 3. Access the FastAPI application in your web browser at http://localhost:8000.

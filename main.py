@@ -1,9 +1,6 @@
 from fastapi import FastAPI
+from app.routers import user_router
 
-# Create an instance of the FastAPI class
 app = FastAPI()
 
-# Define a GET endpoint at the root URL ("/")
-@app.get("/")
-def read_root():
-    return "buenas!"
+app.include_router(user_router.router)
