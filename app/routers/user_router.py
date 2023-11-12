@@ -1,9 +1,9 @@
-from typing import Optional
+from typing import Optional, List, Dict
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 
 from app.entities.user import User, UserCreate, UserUpdate
-from app.usecases import create_user, get_user, delete_user, update_user
+from app.usecases import create_user, get_user, delete_user, update_user, get_all_users
 
 
 router = APIRouter()
@@ -20,6 +20,14 @@ async def get_single_user(user_id: int):
     user = get_user.get_user(user_id)
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
+    return user
+
+@router.get("/users/", response_model=Optional[List[User]])
+async def get_users(page: int = None, limit: int = None, sort_by: str = None, 
+                    sort_direction: str = None):
+    user = get_all_users.get_all_users(page, limit, sort_by, sort_direction)
+    if user is None:
+        raise HTTPException(status_code=404, detail="Users not found")
     return user
 
 @router.put("/users/{user_id}", response_model=Optional[User])
