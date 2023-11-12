@@ -1,10 +1,10 @@
 -- Create the users database
 
-CREATE DATABASE IF NOT EXISTS mydatabase;
+CREATE DATABASE IF NOT EXISTS ladb;
 
 -- Use the users database
 
-USE mydatabase;
+USE ladb;
 
 -- Create the users table
 

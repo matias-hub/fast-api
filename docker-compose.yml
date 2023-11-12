@@ -8,21 +8,20 @@ services:
       - "8000:8000"
     depends_on:
       - mysql-db
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE} 
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_HOST=${MYSQL_HOST}
+    env_file:
+      - .env
     volumes:
       - ./:/app/
       
   mysql-db:
     build: ./migrations
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword # Replace with your password
-      MYSQL_USER: myuser
-      MYSQL_DATABASE: mydatabase
-      MYSQL_PASSWORD: mypassword
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  
+      MYSQL_USER: ${MYSQL_USER} 
+      MYSQL_DATABASE: ${MYSQL_DATABASE} 
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD} 
     ports:
       - "3306:3306"
     volumes:
