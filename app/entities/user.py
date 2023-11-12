@@ -20,6 +20,7 @@ class UserCreate(BaseModel):
     dni : str
     birth_date : str
     created_at : str
+    # TODO: add email regex validation
 
 class UserUpdate(BaseModel):
     id : int
@@ -31,3 +32,4 @@ class UserUpdate(BaseModel):
     dni : str
     birth_date : str
     created_at : str
+    # TODO: add email regex validation
