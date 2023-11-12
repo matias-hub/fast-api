@@ -23,7 +23,6 @@ class UserCreate(BaseModel):
     # TODO: add email regex validation
 
 class UserUpdate(BaseModel):
-    id : int
     wallet_id : str
     email : str
     name :str
