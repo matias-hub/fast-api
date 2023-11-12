@@ -1,19 +1,71 @@
-# main.py
-from dotenv import load_dotenv
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-import os
+"""
+Session shorthands.
+"""
 
-load_dotenv()
+from app.database.user import session as users_session
 
-EXTERNAL_BASE_URL = os.getenv('EXTERNAL_BASE_URL')
-WEBHOOK_ORIGIN = os.getenv('WEBHOOK_ORIGIN')
+def session_selection(self):
+    """
+    Assigns the correct DBA to the session.
+    """
 
-DATABASE_URL = f"mysql+mysqlconnector://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}@mysql-db/{os.getenv('MYSQL_DATABASE')}"
+    if self.__bind_key__ == "users":
+        return users_session
 
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-base = declarative_base()
+def add(self):
+    """
+    Adds a new value to the database.
+    It's considered an INSERT not an UPDATE.
+    """
 
+    session = session_selection(self)
+    session.add(self)
+
+
+def commit(self):
+    """
+    Commits final changes to the database.
+    """
+
+    session = session_selection(self)
+    session.commit()
+
+
+def delete(self):
+    """
+    Deletes a value form database.
+    Commiting changes is needed before completting this session.
+    """
+
+    session = session_selection(self)
+    session.delete(self)
+
+
+def flush(self):
+    """
+    Accepts changes to database without making final commits.
+    """
+
+    session = session_selection(self)
+    session.flush()
+
+
+def close(self):
+    """
+    Closes this Session.
+    This clears all items and ends any transaction in progress.
+    """
+
+    session = session_selection(self)
+    session.close()
+
+
+def rollback(self):
+    """
+    Used to UNDO changes to database from the current session.
+    Helpful for when writting to DB fails to go through.
+    """
+
+    session = session_selection(self)
+    session.rollback()

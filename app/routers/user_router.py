@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter, HTTPException
 
 from app.entities.user import User, UserCreate, UserUpdate
@@ -13,7 +15,7 @@ async def create_new_user(user_data: UserCreate):
         raise HTTPException(status_code=400, detail="Failed to create user")
     return user
 
-@router.get("/users/{user_id}", response_model=User)
+@router.get("/users/{user_id}", response_model=Optional[User])
 async def get_single_user(user_id: int):
     user = get_user.get_user(user_id)
     if user is None:

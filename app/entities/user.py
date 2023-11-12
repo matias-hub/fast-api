@@ -1,19 +1,33 @@
 from pydantic import BaseModel
 
 class User(BaseModel):
-    id: int
-    username: str
-    email: str
-    full_name: str
-    age: int
+    id : int
+    wallet_id : str
+    email : str
+    name :str
+    last_name : str
+    sex_type : str
+    dni : str
+    birth_date : str
+    created_at : str
 
 class UserCreate(BaseModel):
-    username: str
-    email: str
-    full_name: str
+    wallet_id : str
+    email : str
+    name :str
+    last_name : str
+    sex_type : str
+    dni : str
+    birth_date : str
+    created_at : str
 
 class UserUpdate(BaseModel):
-    username: str
-    email: str
-    full_name: str
-    age: int
+    id : int
+    wallet_id : str
+    email : str
+    name :str
+    last_name : str
+    sex_type : str
+    dni : str
+    birth_date : str
+    created_at : str
