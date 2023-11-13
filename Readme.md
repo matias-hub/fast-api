@@ -83,6 +83,21 @@ Will return a list of users. its prepared to recibe a number of query parameters
 
 ```
 pagination: ?page=2&limit=5
-sorting: ?sortBy=email&sortDirection=ascending
-matching: ?match[email]=jdoe@example.com
+sorting: ?sortBy=email&sortDirection=ascending #TODO
+matching: ?match[email]=jdoe@example.com #TODO
+```
+
+## Testing
+
+Get inside the docker container
+
+```
+docker ps
+docker exec -it <mycontainer> bash
+```
+
+and inside the container
+
+```
+pytest
 ```
