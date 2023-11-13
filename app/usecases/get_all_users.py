@@ -8,28 +8,17 @@ def get_all_users(page: int, limit: int, sort_by: str, sort_direction: str) -> O
     """
     Gets a user from the database by user_id.
     """
-    print( page, limit, sort_by, sort_direction)
-
     try:
-
-        if sort_by and sort_direction and page and limit:
-            print("sort_by and sort_direction and page and limit:")
-            db_user_users: Users = Users.get_users_sorted_and_paginated(sort_by= sort_by, sort_direction = sort_direction ,page = page, limit = limit)
         if sort_by and sort_direction:
-            print("if sort_by and sort_direction:")
             db_user_users: Users = Users.get_users_sorted(sort_by= sort_by, sort_direction = sort_direction)
         if page and limit:
-            print("if page and limit:")
             db_user_users: Users = Users.get_users_paginated(page= page, limit = limit)
         else:
             db_user_users: Users = Users.get_all_users()
-
-        print(db_user_users)
-        
         if db_user_users is None:
             return None
         
-        list_of_users: List[User] = []
+        users: List[User] = []
         for db_user in db_user_users:
 
             user = User(
@@ -43,9 +32,10 @@ def get_all_users(page: int, limit: int, sort_by: str, sort_direction: str) -> O
                 birth_date = db_user.birth_date,
                 created_at = db_user.created_at,
             )
-            list_of_users.append(user)
-
-        return list_of_users
+            users.append(user)
+        metadata = {"page": page, "limit": limit}
+        response = {"metadata": metadata, "users": users}
+        return response
 
     except Exception:
         traceback.print_exc()

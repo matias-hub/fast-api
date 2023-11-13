@@ -22,7 +22,7 @@ async def get_single_user(user_id: int):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.get("/users/", response_model=Optional[List[User]])
+@router.get("/users/", response_model=Optional[dict])
 async def get_users(page: int = None, limit: int = None, sort_by: str = None, 
                     sort_direction: str = None):
     user = get_all_users.get_all_users(page, limit, sort_by, sort_direction)

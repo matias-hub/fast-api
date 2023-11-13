@@ -2,7 +2,7 @@
 User ORM.
 """
 
-from sqlalchemy import Column, Integer, String, desc, asc
+from sqlalchemy import Column, Integer, String
 from app.database.database import base, custom_session
 
 
@@ -39,7 +39,7 @@ class Users(base):
     @classmethod
     def get_all_users(cls):
         """
-        Retrieve all user.
+        Retrieve all users.
         """
 
         return session.query(cls).all()
@@ -52,48 +52,24 @@ class Users(base):
         - page (int): The page number.
         - limit (int): The number of users per page.
         """
+        
         offset = (page - 1) * limit
         return session.query(cls).offset(offset).limit(limit).all()
 
     @classmethod
-    def get_users_sorted(cls, sort_by: str, sort_direction: str):
+    def get_users_sorted(cls, sort_by: str, sort_direction: str):  # TODO: FIX
         """
         Retrieve users with sorting.
         Parameters:
         - sort_by (str): The column to sort by.
         - sort_direction (str): The direction of sorting (either 'ascending' or 'descending').
         """
-        if sort_direction.lower() == 'ascending':
-            sort_func = asc
-        elif sort_direction.lower() == 'descending':
-            sort_func = desc
-        else:
-            raise ValueError("Invalid sort direction. Use 'ascending' or 'descending'.")
 
         if hasattr(cls, sort_by):
             sort_column = getattr(cls, sort_by)
-            return session.query(cls).order_by(sort_func(sort_column)).all()
-        else:
-            raise ValueError("Invalid column for sorting.")
-
-    @classmethod
-    def get_users_sorted_and_paginated(cls, sort_by: str, sort_direction: str, page: int, limit: int):
-        """
-        Retrieve users with sorting.
-        Parameters:
-        - sort_by (str): The column to sort by.
-        - sort_direction (str): The direction of sorting (either 'ascending' or 'descending').
-        """
-        if sort_direction.lower() == 'ascending':
-            sort_func = asc
-        elif sort_direction.lower() == 'descending':
-            sort_func = desc
+            if sort_direction.lower() == 'ascending':
+                return session.query(cls).order_by(sort_column.asc()).all()
+            elif sort_direction.lower() == 'descending':
+                return session.query(cls).order_by(sort_column.desc()).all()
         else:
             raise ValueError("Invalid sort direction. Use 'ascending' or 'descending'.")
-
-        if hasattr(cls, sort_by):
-            sort_column = getattr(cls, sort_by)
-            offset = (page - 1) * limit
-            return session.query(cls).order_by(desc(sort_column)).offset(offset).limit(limit).all()
-        else:
-            raise ValueError("Invalid column for sorting.")
